@@ -39,9 +39,9 @@ const AddUserForm = ({ addUser }) => {
     addFormData({ type: "wipe" });
   };
   return (
-    <form id="add-user" onSubmit={onSubmit}>
-      <fieldset>
-        <label>Name</label>
+    <form onSubmit={onSubmit}>
+      <label>
+        Name
         <input
           type="text"
           required
@@ -50,7 +50,10 @@ const AddUserForm = ({ addUser }) => {
           onChange={(e) => handleChange(e)}
           value={formData.name}
         />
-        <label>Email</label>
+      </label>
+
+      <label>
+        Email
         <input
           type="email"
           name="email"
@@ -59,7 +62,10 @@ const AddUserForm = ({ addUser }) => {
           onChange={(e) => handleChange(e)}
           value={formData.email}
         />
-        <label>ID</label>
+      </label>
+
+      <label>
+        ID
         <input
           type="text"
           name="id"
@@ -68,9 +74,9 @@ const AddUserForm = ({ addUser }) => {
           onChange={(e) => handleChange(e)}
           value={formData.id}
         />
-      </fieldset>
+      </label>
 
-      <input type="submit" value="Add" />
+      <button>Add</button>
     </form>
   );
 };
