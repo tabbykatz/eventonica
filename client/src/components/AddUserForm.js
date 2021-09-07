@@ -8,36 +8,36 @@ const initialState = {
 
 const reducer = (formData, action) => {
   switch (action.type) {
-    case "add":
+    case "update":
       return {
         ...formData,
         [action.field]: action.payload,
       };
-    case "wipe":
-      return {
-        ...initialState,
-      };
+    case "reset":
+      return initialState;
     default:
       throw new Error();
   }
 };
 
 const AddUserForm = ({ addUser }) => {
-  const [formData, addFormData] = React.useReducer(reducer, initialState);
+  const [formData, dispatch] = React.useReducer(reducer, initialState);
 
-  const handleChange = (e) => {
-    addFormData({
-      type: "add",
-      field: e.target.name,
-      payload: e.target.value,
-    });
+  const updateField = (field, payload) =>
+    dispatch({ type: "update", field, payload });
+
+  const resetForm = () => dispatch({ type: "reset" });
+
+  const onChange = ({ currentTarget: { name, value } }) => {
+    updateField(name, value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
     addUser(formData);
-    addFormData({ type: "wipe" });
+    resetForm();
   };
+
   return (
     <form onSubmit={onSubmit}>
       <label>
@@ -47,7 +47,7 @@ const AddUserForm = ({ addUser }) => {
           required
           name="name"
           placeholder="Name"
-          onChange={(e) => handleChange(e)}
+          {...{ onChange }}
           value={formData.name}
         />
       </label>
@@ -59,7 +59,7 @@ const AddUserForm = ({ addUser }) => {
           name="email"
           required
           placeholder="Email"
-          onChange={(e) => handleChange(e)}
+          {...{ onChange }}
           value={formData.email}
         />
       </label>
@@ -71,7 +71,7 @@ const AddUserForm = ({ addUser }) => {
           name="id"
           required
           placeholder="choose a numerical id"
-          onChange={(e) => handleChange(e)}
+          {...{ onChange }}
           value={formData.id}
         />
       </label>
