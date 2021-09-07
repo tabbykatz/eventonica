@@ -6,38 +6,24 @@ const initialState = {
   id: "",
 };
 
-const reducer = (formData, action) => {
-  switch (action.type) {
-    case "add":
-      return {
-        ...formData,
-        [action.field]: action.payload,
-      };
-    case "wipe":
-      return {
-        ...initialState,
-      };
-    default:
-      throw new Error();
-  }
-};
-
 const AddUserForm = ({ addUser }) => {
-  const [formData, addFormData] = React.useReducer(reducer, initialState);
+  const [formData, setFormData] = React.useState(initialState);
 
-  const handleChange = (e) => {
-    addFormData({
-      type: "add",
-      field: e.target.name,
-      payload: e.target.value,
-    });
+  const updateField = (field, value) =>
+    setFormData((formData) => ({ ...formData, [field]: value }));
+
+  const resetForm = () => setFormData(initialState);
+
+  const onChange = ({ currentTarget: { name, value } }) => {
+    updateField(name, value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
     addUser(formData);
-    addFormData({ type: "wipe" });
+    resetForm();
   };
+
   return (
     <form onSubmit={onSubmit}>
       <label>
@@ -47,7 +33,7 @@ const AddUserForm = ({ addUser }) => {
           required
           name="name"
           placeholder="Name"
-          onChange={(e) => handleChange(e)}
+          {...{ onChange }}
           value={formData.name}
         />
       </label>
@@ -59,7 +45,7 @@ const AddUserForm = ({ addUser }) => {
           name="email"
           required
           placeholder="Email"
-          onChange={(e) => handleChange(e)}
+          {...{ onChange }}
           value={formData.email}
         />
       </label>
@@ -71,7 +57,7 @@ const AddUserForm = ({ addUser }) => {
           name="id"
           required
           placeholder="choose a numerical id"
-          onChange={(e) => handleChange(e)}
+          {...{ onChange }}
           value={formData.id}
         />
       </label>
