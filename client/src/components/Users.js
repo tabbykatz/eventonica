@@ -1,6 +1,7 @@
 import * as React from "react";
 import UsersList from "./UsersList";
 import AddUserForm from "./AddUserForm";
+import DeleteUserForm from "./DeleteUserForm";
 
 const calcifer = { name: "Calcifer", email: "firespirit@gmail.com", id: "1" };
 const jiji = { name: "Jiji", email: "Jiji@gmail.com", id: "2" };
@@ -17,6 +18,10 @@ const Users = (props) => {
     setUsers([...users, formData]);
   };
 
+  const deleteUser = (id) => {
+    setUsers(users.filter((user) => user.id !== id));
+  };
+
   return (
     <section className="user-management">
       <h2>User Management</h2>
@@ -29,13 +34,7 @@ const Users = (props) => {
 
       <div>
         <h3>Delete User</h3>
-        <form id="delete-user">
-          <fieldset>
-            <label>User ID</label>
-            <input type="text" id="delete-user-id" />
-          </fieldset>
-          <input type="submit" />
-        </form>
+        <DeleteUserForm deleteUser={deleteUser} />
       </div>
     </section>
   );

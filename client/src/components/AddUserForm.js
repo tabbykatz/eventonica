@@ -29,7 +29,7 @@ const AddUserForm = ({ addUser }) => {
     addFormData({
       type: "add",
       field: e.target.name,
-      payload: e.target.value || e.target.key,
+      payload: e.target.value,
     });
   };
 
